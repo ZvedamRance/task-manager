@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 
-class TaskManager {
+public class TaskManager {
     private static final File file = new File("tasks.csv");
     private static String[][] tasks;
     private static final String[] OPTIONS = {"add", "remove", "list", "exit"};
