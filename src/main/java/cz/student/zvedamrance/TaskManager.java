@@ -1,4 +1,5 @@
-package org.example;
+package cz.student.zvedamrance;
+
 import org.apache.commons.lang3.*;
 import java.io.File;
 import java.io.FileWriter;
@@ -34,7 +35,6 @@ public class TaskManager {
             }
         }
     }
-
     public static void add() {
         tasks = Arrays.copyOf(tasks, tasks.length + 1);
         System.out.println("Please enter the name of the task you would like to add:");
@@ -45,26 +45,23 @@ public class TaskManager {
         final String isDone = scanner.nextLine();
         tasks[tasks.length - 1] = new String[] {name, date, isDone};
     }
-
     public static void remove() {
         System.out.println("Please, enter the number of the task you would like to remove:");
-        int number = -1;
         while (true) {
             final String input = scanner.nextLine();
             try{
-                number = Integer.parseInt(input);
+                final int index = Integer.parseInt(input);
+                if (index >= 0 && index < tasks.length) {
+                    tasks = ArrayUtils.remove(tasks, index);
+                    break;
+                } else {
+                    System.out.println(ConsoleColors.RED + "Please, enter a number between 0 and " + (tasks.length - 1) + "." + ConsoleColors.RESET);
+                }
             } catch (NumberFormatException e) {
-            }
-            if (number >= 0 && number < tasks.length) {
-                break;
-            } else {
                 System.out.println(ConsoleColors.RED + "Please, enter a number between 0 and " + (tasks.length - 1) + "." + ConsoleColors.RESET);
             }
         }
-        tasks = ArrayUtils.remove(tasks, number);
     }
-
-
     private static void list() {
         System.out.println(ConsoleColors.PURPLE + "Id:[Note, Date, IsDone]");
         System.out.println(ConsoleColors.RESET + "-----------------");
@@ -110,10 +107,8 @@ public class TaskManager {
         }
         tasks = new String[lines.size()][3];
         for (int i = 0; i < lines.size(); i++) {
-            for (int j = 0; j < 3; j++) {
-                String [] temp = lines.get(i).split(",");
-                tasks[i][j] = temp [j].trim();
-            }
+            final var task = lines.get(i).split(",");
+            tasks[i] = task;
         }
     }
 }
